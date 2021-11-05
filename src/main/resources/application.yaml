@@ -3,3 +3,9 @@ spring:
     url: ${JDBC_URL}
     username: ${JDBC_USERNAME}
     password: ${JDBC_PASSWORD}
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+server:
+  port: 8761
