@@ -3,8 +3,6 @@ spring:
     url: ${JDBC_URL}
     username: ${JDBC_USERNAME}
     password: ${JDBC_PASSWORD}
-server:
-  port: ${PORT}
 eureka:
   instance:
-    non-secure-port: ${PORT}
+    appname: projects
