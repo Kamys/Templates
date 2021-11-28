@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class Controller {
 
-    @PostMapping("/mail")
+    @PostMapping("/email")
     fun sendMail(@RequestBody request: RequestMailCreate) {
         transaction {
             Mail.new {
