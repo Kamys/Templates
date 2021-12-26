@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.*
 class Controller {
 
     @PostMapping("/email")
-    fun sendMail(@RequestBody request: RequestMailCreate) {
+    fun sendMail(@RequestBody request: RequestMailCreate): String {
+        println("sendMail(${request.text})")
         transaction {
             Mail.new {
                 this.to = request.to
                 this.text = request.text
             }
         }
+        return "New email created"
     }
 }
 
