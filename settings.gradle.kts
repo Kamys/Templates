@@ -1,6 +1,6 @@
-rootProject.name = "DiscoveryClient"
+rootProject.name = "microservices"
 
 include("base")
 include("projects")
 include("eurekaServer")
-include("emailServes")
+include("emailService")

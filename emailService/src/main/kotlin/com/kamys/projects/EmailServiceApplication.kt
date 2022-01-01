@@ -13,17 +13,17 @@ import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
 @EnableDiscoveryClient
-class EmailServesApplication {
+class EmailServiceApplication {
     @Bean
     fun eurekaInstanceConfig(inetUtils: InetUtils?): EurekaInstanceConfigBean? {
         val bean = EurekaInstanceConfigBean(inetUtils)
-        bean.appname = Projects.EMAIL_SERVES
+        bean.appname = Projects.EMAIL_SERVICE
         return bean
     }
 }
 
 fun main() {
-    SpringApplication.run(EmailServesApplication::class.java)
+    SpringApplication.run(EmailServiceApplication::class.java)
 
     println("Client run!")
 
