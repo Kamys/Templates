@@ -13,3 +13,4 @@
 - netflix-eureka-server - реализация Service Discovery от netflix. 
   Позволяет microservices находить друг друга
 - openfeign - Позваряет описать REST запросы в виде классов и вызывать их
+- LoadBalancer - помогает распределять входящий траффик (incomming traffic) равно между репликами.

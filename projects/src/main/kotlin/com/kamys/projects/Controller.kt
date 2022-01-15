@@ -1,7 +1,6 @@
-package com.template
+package com.kamys.projects
 
-import com.kamys.projects.Project
-import com.kamys.projects.ProjectTable
+import com.kamys.base.Projects
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +32,6 @@ class Controller(
             Pair(project, oldName)
         }
 
-        println("Make post")
         emailServerClient.sendMail(
             NewEmailRequest(
                 to = project.email,
@@ -52,7 +50,7 @@ class NewEmailRequest(
     val text: String
 )
 
-@FeignClient(name = "test", url = "http://localhost:8081")
+@FeignClient(name = Projects.EMAIL_SERVICE)
 interface EmailServerClient {
     @RequestMapping(method = [RequestMethod.POST], value = ["/email"], consumes = ["application/json"])
     fun sendMail(email: NewEmailRequest)
