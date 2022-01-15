@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     application
@@ -47,4 +48,11 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
+}
+
+tasks.getByName<BootJar>("bootJar") {
+    enabled = false
+}
+tasks.getByName<Jar>("jar") {
+    enabled = true
 }
