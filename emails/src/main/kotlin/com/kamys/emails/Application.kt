@@ -1,19 +1,20 @@
-package com.template
+package com.kamys.emails
 
 import com.kamys.base.Projects
-import com.kamys.projects.MailTable
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.commons.util.InetUtils
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean
 import org.springframework.context.annotation.Bean
 
+@ConfigurationPropertiesScan("com.kamys")
 @SpringBootApplication
 @EnableDiscoveryClient
-class EmailServiceApplication {
+class Application {
     @Bean
     fun eurekaInstanceConfig(inetUtils: InetUtils?): EurekaInstanceConfigBean? {
         val bean = EurekaInstanceConfigBean(inetUtils)
@@ -23,7 +24,7 @@ class EmailServiceApplication {
 }
 
 fun main() {
-    SpringApplication.run(EmailServiceApplication::class.java)
+    SpringApplication.run(Application::class.java)
 
     println("Client run!")
 

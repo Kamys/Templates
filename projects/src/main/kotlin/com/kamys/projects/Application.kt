@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.commons.util.InetUtils
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean
@@ -14,6 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import kotlin.random.Random
 
+@ConfigurationPropertiesScan("com.kamys")
 @SpringBootApplication
 @EnableFeignClients
 @EnableDiscoveryClient
@@ -37,8 +39,8 @@ fun main() {
             repeat(3) { index ->
                 ProjectTable.insert {
                     it[ProjectTable.id] = Random.nextInt()
-                    it[ProjectTable.name] = "Project $index"
-                    it[ProjectTable.email] = "test$index@gmail.com"
+                    it[name] = "Project $index"
+                    it[email] = "test$index@gmail.com"
                 }
             }
         }

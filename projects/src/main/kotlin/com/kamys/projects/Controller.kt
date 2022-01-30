@@ -1,17 +1,17 @@
 package com.kamys.projects
 
-import com.kamys.base.Projects
+import com.kamys.base.MessageProjectEditName
+import com.kamys.projects.amqp.AmqpSender
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
 class Controller(
     @Autowired
-    val emailServerClient: EmailServerClient
+    val amqpSender: AmqpSender
 ) {
 
     @GetMapping("/projects")
@@ -32,10 +32,11 @@ class Controller(
             Pair(project, oldName)
         }
 
-        emailServerClient.sendMail(
-            NewEmailRequest(
-                to = project.email,
-                text = "Project $oldName change name to ${project.name}"
+        amqpSender.sendMessage(
+            MessageProjectEditName(
+                email = project.email,
+                oldName = oldName,
+                newName = request.name
             )
         )
     }
@@ -44,14 +45,3 @@ class Controller(
 class ProjectEditRequest(
     val name: String,
 )
-
-class NewEmailRequest(
-    val to: String,
-    val text: String
-)
-
-@FeignClient(name = Projects.EMAIL_SERVICE)
-interface EmailServerClient {
-    @RequestMapping(method = [RequestMethod.POST], value = ["/email"], consumes = ["application/json"])
-    fun sendMail(email: NewEmailRequest)
-}
