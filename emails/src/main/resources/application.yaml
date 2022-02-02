@@ -1,7 +1,4 @@
 spring:
-  config:
-    import:
-      - service-properties.yaml
   datasource:
     url: ${JDBC_URL}
     username: ${JDBC_USERNAME}

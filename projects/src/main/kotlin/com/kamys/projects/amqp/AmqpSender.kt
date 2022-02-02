@@ -10,13 +10,11 @@ import org.springframework.stereotype.Component
 class AmqpSender(
     @Autowired
     private val rabbitTemplate: RabbitTemplate,
-    @Autowired
-    private val amqpProperties: AmqpProperties,
 ) {
 
     fun sendMessage(messages: MessageProjectEditName) {
         rabbitTemplate.convertAndSend(
-            amqpProperties.topicExchangeName,
+            AmqpProperties.ProjectEdit.exchange,
             "edit.name",
             messages
         )

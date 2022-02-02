@@ -1,3 +1,0 @@
-amqp:
-  topic-exchange-name: "spring-boot-exchange"
-  queue-name: "project-edit"
