@@ -40,10 +40,10 @@ subprojects {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.SPRING_CLOUD}")
         }
     }
-}
 
-tasks.test {
-    useJUnit()
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
 
 tasks.withType<KotlinCompile>() {

@@ -4,7 +4,6 @@ import com.kamys.base.AmqpProperties
 import org.springframework.amqp.core.*
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitAdmin
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringBootConfiguration
 import org.springframework.context.annotation.Bean
@@ -25,6 +24,4 @@ class AmqpConfiguration {
         amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with("edit.#"))
         return amqpAdmin
     }
-
-
 }
