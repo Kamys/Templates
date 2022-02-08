@@ -1,6 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:tc:postgresql:14:///databasename?TC_TMPFS=/testtmpfs:rw
   cloud:
     discovery:
       enabled: false

@@ -5,6 +5,7 @@ import com.kamys.projects.amqp.AmqpSender
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 
@@ -23,6 +24,7 @@ class Controller(
     }
 
     @PutMapping("/projects/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun editProject(@PathVariable id: Int, @RequestBody request: ProjectEditRequest) {
         val (project, oldName) = transaction {
             val project = Project.find { ProjectTable.id.eq(id) }
