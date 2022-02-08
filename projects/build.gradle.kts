@@ -12,6 +12,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:${Versions.SPRING}")
     testImplementation("org.testcontainers:postgresql:${Versions.TEST_CONTAINERS}")
+    testImplementation("org.testcontainers:rabbitmq:${Versions.TEST_CONTAINERS}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.1.0")
     testImplementation("org.springframework.amqp:spring-rabbit-test:${Versions.SPRING_RABBIT}")
