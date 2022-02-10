@@ -1,9 +1,17 @@
 package com.kamys.projects.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.kamys.base.AmqpProperties
 import com.kamys.projects.Application
+import com.kamys.projects.ProjectTable
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -27,6 +35,9 @@ class BaseIntegrationTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    @Autowired
+    lateinit var rabbitTemplate: RabbitTemplate
+
 
     companion object {
         private val postgreSQLContainer = PostgreSQLContainerProvider().newInstance("14")
@@ -42,6 +53,27 @@ class BaseIntegrationTest {
     }
 
     fun Any.asJson(): String = objectMapper.writeValueAsString(this)
+
+    @BeforeEach
+    fun createAllTableInDataBase() {
+        transaction {
+            // TODO: replace on migration
+            SchemaUtils.create(ProjectTable)
+        }
+    }
+
+    @BeforeEach
+    fun deleteAllEntitiesInDataBase() {
+        transaction {
+            ProjectTable.deleteAll()
+        }
+    }
+
+    @BeforeEach
+    fun deleteAllMessagesInAMQP() {
+        // TODO: How get all queue names?
+        rabbitTemplate.execute { it.queuePurge(AmqpProperties.ProjectEdit.queue) }
+    }
 
     @Configuration
     class TestConfiguration {

@@ -6,4 +6,8 @@ class MessageProjectEditName(
     val email: String,
     val newName: String,
     val oldName: String
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        return "MessageProjectEditName(email='$email', newName='$newName', oldName='$oldName')"
+    }
+}
