@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.put
 
-class FirstTests: BaseIntegrationTest() {
+class ProjectTests: BaseIntegrationTest() {
 
     @Test
     fun `should send message project name edit`() {

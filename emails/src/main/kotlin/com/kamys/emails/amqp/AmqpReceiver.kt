@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component
 class AmqpReceiver {
     @RabbitListener(queues = [AmqpProperties.ProjectEdit.queue])
     fun receiveMessage(message: MessageProjectEditName) {
-        println("Rename project ${message.oldName}")
         transaction {
             Mail.new {
                 this.to = message.email

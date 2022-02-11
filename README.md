@@ -10,7 +10,17 @@
 
 #### Инструменты: 
 - Exposed - ORM framework для Kotlin
-- netflix-eureka-server - реализация Service Discovery от netflix. 
+- Netflix-eureka-server - реализация Service Discovery от netflix. 
   Позволяет microservices находить друг друга
-- openfeign - Позваряет описать REST запросы в виде классов и вызывать их
+- Openfeign - Позволяет описать REST запросы в виде классов и вызывать их
 - LoadBalancer - помогает распределять входящий траффик (incomming traffic) равно между репликами.
+
+#### Инструменты для тестов:
+- Testcontainers - позволяет запускать в JUnit тестах Docker-контейнер. 
+  Для интеграционных тестов с PostgreSQL и RabbitMQ
+- Awaitility - позволяет удобнее тестировать асинхронные события.
+К примеру дождаться пока будет обработано событие из RabbitMQ
+
+### На заметку
+- Тесты проходят для двух микросервисов в одной базе
+
