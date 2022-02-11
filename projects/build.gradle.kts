@@ -15,6 +15,4 @@ dependencies {
     testImplementation("org.testcontainers:rabbitmq:${Versions.TEST_CONTAINERS}")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.1.0")
-    testImplementation("org.springframework.amqp:spring-rabbit-test:${Versions.SPRING_RABBIT}")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
