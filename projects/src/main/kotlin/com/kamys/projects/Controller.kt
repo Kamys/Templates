@@ -5,6 +5,7 @@ import com.kamys.projects.amqp.AmqpSender
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +15,14 @@ class Controller(
     @Autowired
     val amqpSender: AmqpSender
 ) {
+
+    @Value("\${greeting}")
+    var greeting: String? = null
+
+    @GetMapping
+    fun greeting(): String? {
+        return "Spring env property 'greeting': $greeting"
+    }
 
     @GetMapping("/projects")
     fun getProjects(): List<String> {

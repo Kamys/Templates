@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: emails
   datasource:
     url: ${JDBC_URL}
     username: ${JDBC_USERNAME}

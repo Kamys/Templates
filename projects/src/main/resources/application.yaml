@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: projects
   datasource:
     url: ${JDBC_URL}
     username: ${JDBC_USERNAME}
@@ -8,3 +10,4 @@ server:
 eureka:
   instance:
     non-secure-port: ${PORT}
+greeting: Default greeting

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: config_server
+  cloud.config:
+    server:
+      git.uri: https://github.com/Kamys/microservers-config
+server:
+  port: ${PORT}
+eureka:
+  instance:
+    non-secure-port: ${PORT}
