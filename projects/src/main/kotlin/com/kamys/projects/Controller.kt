@@ -19,6 +19,9 @@ class Controller(
     @Value("\${greeting}")
     var greeting: String? = null
 
+    @Value("\${eureka.instance.instance-id}")
+    var instanceId: String? = null
+
     @GetMapping
     fun greeting(): String? {
         return "Spring env property 'greeting': $greeting"
@@ -50,6 +53,11 @@ class Controller(
                 newName = request.name
             )
         )
+    }
+
+    @GetMapping("/instance-name")
+    fun getInstanceName(): String? {
+        return instanceId
     }
 }
 

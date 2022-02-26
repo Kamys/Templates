@@ -6,8 +6,9 @@ spring:
     username: ${JDBC_USERNAME}
     password: ${JDBC_PASSWORD}
 server:
-  port: ${PORT}
+  port: 0
 eureka:
   instance:
-    non-secure-port: ${PORT}
+    non-secure-port: 0
+    instance-id: ${spring.application.name}:${random.value}
 greeting: Default greeting
