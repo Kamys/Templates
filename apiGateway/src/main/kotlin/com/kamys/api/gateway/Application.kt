@@ -33,6 +33,13 @@ internal class ProxyConfig {
                     .filters { it.stripPrefix(1) }
                     .uri("lb://projects")
             }
+            .route("emails") { route ->
+                route.path("/emails/**")
+                    .and()
+                    .method(HttpMethod.GET)
+                    .filters { it.stripPrefix(1) }
+                    .uri("lb://emails")
+            }
         return router.build()
     }
 }

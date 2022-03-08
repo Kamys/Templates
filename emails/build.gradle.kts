@@ -8,6 +8,7 @@ dependencies {
 
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${Versions.EUREKA_CLIENT}")
     implementation("org.springframework.amqp:spring-rabbit:${Versions.SPRING_RABBIT}")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:${Versions.OPENFEIGN}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:${Versions.SPRING}")
     testImplementation("org.testcontainers:postgresql:${Versions.TEST_CONTAINERS}")

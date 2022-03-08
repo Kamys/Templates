@@ -1,8 +1,8 @@
 package com.kamys.projects
 
 import com.kamys.base.MessageProjectEditName
+import com.kamys.base.ProjectView
 import com.kamys.projects.amqp.AmqpSender
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -27,15 +27,19 @@ class Controller(
         return "Spring env property 'greeting': $greeting"
     }
 
-    @GetMapping("/projects")
-    fun getProjects(): List<String> {
-        val names = transaction {
-            ProjectTable.selectAll().map { it[ProjectTable.name] }
+    @GetMapping("/")
+    fun getProjects(): List<ProjectView> {
+        return transaction {
+            Project.all().map {
+                ProjectView(
+                    name = it.name,
+                    email = it.email
+                )
+            }
         }
-        return names
     }
 
-    @PutMapping("/projects/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun editProject(@PathVariable id: Int, @RequestBody request: ProjectEditRequest) {
         val (project, oldName) = transaction {
