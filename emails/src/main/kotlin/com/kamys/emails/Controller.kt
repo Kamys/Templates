@@ -1,6 +1,8 @@
 package com.kamys.emails
 
 import com.kamys.base.ProjectView
+import feign.RequestLine
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.openfeign.FeignClient
@@ -15,7 +17,7 @@ class Controller(
     @Autowired
     val apiGatewayClient: ApiGatewayClient
 ) {
-    @GetMapping("/notificationAllUser")
+    @GetMapping("/notification-all-user")
     fun notificationAllUser() {
         val projects = apiGatewayClient.getAllProject()
         transaction {
@@ -27,11 +29,50 @@ class Controller(
             }
         }
     }
+
+    @GetMapping("/notification-favorite")
+    @CircuitBreaker(name = "ApiGatewayClient", fallbackMethod = "notificationFavoriteFallback")
+    fun notificationFavorite(): List<String> {
+        val projects = apiGatewayClient.getFavouritesProject()
+        transaction {
+            projects.forEach {
+                Mail.new {
+                    this.to = it.email
+                    this.text = "Message for favourites project"
+                }
+            }
+        }
+
+        return projects.map { it.name }
+    }
+
+    fun notificationFavoriteFallback(throwable: Throwable): List<String> {
+        return listOf("Fallback data")
+    }
+
+    @GetMapping("/notification-favorite-2")
+    fun notificationFavoriteWithoutCircuitBreaker(): List<String> {
+        val projects = apiGatewayClient.getFavouritesProject()
+        transaction {
+            projects.forEach {
+                Mail.new {
+                    this.to = it.email
+                    this.text = "Message for favourites project"
+                }
+            }
+        }
+
+        return projects.map { it.name }
+    }
 }
 
 @Component
 @FeignClient(name = "apiGateway")
 interface ApiGatewayClient {
+    @RequestLine("GET /projects/")
     @RequestMapping(method = [RequestMethod.GET], value = ["/projects/"], consumes = ["application/json"])
     fun getAllProject(): List<ProjectView>
+    @RequestLine("GET /projects/favourites")
+    @RequestMapping(method = [RequestMethod.GET], value = ["/projects/favourites"], consumes = ["application/json"])
+    fun getFavouritesProject(): List<ProjectView>
 }

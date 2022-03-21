@@ -18,6 +18,8 @@
 - Openfeign - Позволяет описать REST запросы в виде классов и вызывать их
 - LoadBalancer - помогает распределять входящий траффик (incomming traffic) равно между репликами.
 - Spring-cloud-starter-gateway - Реализация шаблона Reverse Proxy
+- Resilience4J - библиотека отказоустойчивости реализует перретны CircuitBreaker, Bulkhead, RateLimiter, Retry
+- RabbitMQ - брокер сообщений
 
 #### Инструменты для тестов:
 - Testcontainers - позволяет запускать в JUnit тестах Docker-контейнер. 
@@ -28,4 +30,7 @@
 ### На заметку
 - Тесты проходят для двух микросервисов в одной базе
 - Микросервисы используют одну базу
+
+## Запуск Rabbitmq
+`docker run -d -p 5672:5672 rabbitmq:3`
 

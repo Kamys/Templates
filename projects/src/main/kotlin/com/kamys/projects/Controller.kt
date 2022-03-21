@@ -3,11 +3,14 @@ package com.kamys.projects
 import com.kamys.base.MessageProjectEditName
 import com.kamys.base.ProjectView
 import com.kamys.projects.amqp.AmqpSender
+import kotlinx.coroutines.delay
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 @RestController
@@ -37,6 +40,38 @@ class Controller(
                 )
             }
         }
+    }
+
+    var callCount = 0
+    var timerTask: TimerTask? = null
+
+    @GetMapping("/favourites")
+    fun getFavoriteProjects(): List<ProjectView> {
+
+        if (timerTask != null) {
+            throw Exception("Failed favorite projects")
+        }
+
+        if (callCount > 2) {
+            timerTask = Timer("SettingUp", false).schedule(3 * 1000) {
+                callCount = 0
+                timerTask = null
+            }
+            throw Exception("Failed favorite projects")
+        }
+
+        callCount++
+
+        return listOf(
+            ProjectView(
+                name = "Favorite project from server 1",
+                email = "project@mail.com"
+            ),
+            ProjectView(
+                name = "Favorite project from server 2",
+                email = "project@mail.com"
+            )
+        )
     }
 
     @PutMapping("/{id}")
