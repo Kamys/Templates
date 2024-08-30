@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.RestController
 @SpringBootApplication
 class Application
 
-object UserTable : Table() {
-    val id = varchar("id", 10)
-    val name = varchar("name", length = 50)
-}
-
 fun main() {
     SpringApplication.run(Application::class.java)
 
@@ -28,6 +23,11 @@ fun main() {
             it[UserTable.name] = "Ron"
         }
     }
+}
+
+object UserTable : Table() {
+    val id = varchar("id", 10)
+    val name = varchar("name", length = 50)
 }
 
 @RestController
