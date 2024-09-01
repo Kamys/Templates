@@ -1,39 +1,54 @@
 package com.template
 
+import com.github.kagkarlsson.jdbc.JdbcRunner
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import com.github.kagkarlsson.jdbc.PreparedStatementSetter
+import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.selectAll
+import java.time.LocalDateTime
 
 @SpringBootApplication
 class Application
 
 fun main() {
-    SpringApplication.run(Application::class.java)
+    val context = SpringApplication.run(Application::class.java)
 
     transaction {
-        SchemaUtils.create (UserTable)
+        SchemaUtils.create(UserTable)
+    }
 
-        UserTable.insert {
-            it[UserTable.id] = "1"
-            it[UserTable.name] = "Ron"
+    transaction {
+        UserTable.deleteAll()
+    }
+
+    runCatching {
+        transaction {
+            UserTable.insert {
+                it[UserTable.id] = "1"
+                it[UserTable.name] = "Ron " + LocalDateTime.now()
+            }
+
+            val jdbcRunner = context.getBean(JdbcRunner::class.java)
+            jdbcRunner.execute(
+                "insert into test.user (id, name) values ('2', 'jdbcRunner')",
+                PreparedStatementSetter.NOOP
+            )
+            rollback()
+            throw Exception("My exception for test")
         }
     }
-}
 
-object UserTable : Table() {
-    val id = varchar("id", 10)
-    val name = varchar("name", length = 50)
-}
-
-@RestController
-class Controller {
-    @GetMapping()
-    fun get(): String {
-        return "Hello spring MVC!"
+    val count = transaction { UserTable.selectAll().count() }
+    if (count == 0L) {
+        println("Users count: $count")
+    } else {
+        System.err.println("Users count: $count")
     }
+    context.close()
+    System.exit(0)
 }
+

@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-val springVersion = "3.3.3"
-val exposedVersion = "0.53.0"
+val springVersion = "2.7.18"
+val exposedVersion = "0.40.1"
 
 plugins {
-    id("org.springframework.boot") version "3.3.3"
+    id("org.springframework.boot") version "2.7.18"
     kotlin("jvm") version "2.0.20"
     kotlin("plugin.spring") version "2.0.20"
 }
@@ -18,12 +18,15 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-    testImplementation(kotlin("test"))
 
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.postgresql:postgresql:42.7.4")
+    val pathToProject = "/Users/nikitakamyshenko/Projects/IdeaProjects/micro-jdbc"
+    implementation(files("$pathToProject/target/micro-jdbc-0.7.0-SNAPSHOT.jar"))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+    testImplementation(kotlin("test"))
 }
 
 tasks.test {

@@ -3,3 +3,5 @@ spring:
     url: jdbc:postgresql://localhost:5433/lazypack?reWriteBatchedInserts=true&currentSchema=test
     username: postgres
     password: 1234
+  main:
+    allow-bean-definition-overriding: true
