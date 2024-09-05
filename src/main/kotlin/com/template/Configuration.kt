@@ -24,7 +24,6 @@ class Configuration {
 
     @Bean
     fun createJdbcRunner(dataSource: DataSource): JdbcRunner {
-        println("autoCommit: " + dataSource.connection.autoCommit)
-        return JdbcRunner(dataSource, false)
+        return JdbcRunner(dataSource)
     }
 }
